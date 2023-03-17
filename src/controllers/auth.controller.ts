@@ -6,11 +6,11 @@ import { createJWT } from "../utils/createJWT";
 export class AuthController {
     async Login(req: Request, res: Response) {
         const { username, password, email } = req.body;
-
         if (!password) return res.sendStatus(400)
-
+        
         if (!email && !username) return res.sendStatus(400)
-
+        const users = await DatabaseClient.user.findMany()
+        console.log(`user =======================${users}///////////////////`)
         const UserExists = await DatabaseClient.user.findFirst({
             where: {
                 OR: [
@@ -19,7 +19,8 @@ export class AuthController {
                 ],
             }
         })
-
+        
+        console.log(UserExists);
         if (!UserExists) return res.sendStatus(404);
 
         compare(password, UserExists.password, (err, result) => {
@@ -80,12 +81,11 @@ export class AuthController {
                     err: err
                 })
             }
-
             DatabaseClient.user.create({
                 data: {
-                    email,
-                    username,
-                    password: hash
+                    email: email,
+                    name: username,
+                    hashPassword: hash
                 }
             }).then(user => {
                 createJWT(user, (_err, token) => {

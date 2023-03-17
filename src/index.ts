@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(router)
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3003
 
 app.listen(PORT, () => {
     console.log(`[SERVER] Running on port ${PORT}`)

@@ -6,3 +6,5 @@ export const router = Router();
 
 router.use("/auth", AuthRouter)
 router.use("/users", UserRouter)
+
+router.post("/dashboard", )
